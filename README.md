@@ -1,0 +1,1 @@
+The demo page for TrueCropper.js

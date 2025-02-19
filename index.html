@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./static/favicon.ico?v=1" type="image/x-icon">
+  <title>TrueCropper.js - Open Source Image Cropping Library</title>
+</head>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="https://github.com/IvanMartynenko/truecropper/" target="_blank">TrueCropper.js</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#demo">Demo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#examples">Examples</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#documentation">Documentation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="https://github.com/IvanMartynenko/truecropper/">
+              <svg width="16" height="16" aria-hidden="true" viewBox="0 0 24 24" version="1.1"
+                data-view-component="true" fill="currentColor" class="mb-1 me-1">
+                <path
+                  d="M12.5.75C6.146.75 1 5.896 1 12.25c0 5.089 3.292 9.387 7.863 10.91.575.101.79-.244.79-.546 0-.273-.014-1.178-.014-2.142-2.889.532-3.636-.704-3.866-1.35-.13-.331-.69-1.352-1.18-1.625-.402-.216-.977-.748-.014-.762.906-.014 1.553.834 1.769 1.179 1.035 1.74 2.688 1.25 3.349.948.1-.747.402-1.25.733-1.538-2.559-.287-5.232-1.279-5.232-5.678 0-1.25.445-2.285 1.178-3.09-.115-.288-.517-1.467.115-3.048 0 0 .963-.302 3.163 1.179.92-.259 1.897-.388 2.875-.388.977 0 1.955.13 2.875.388 2.2-1.495 3.162-1.179 3.162-1.179.633 1.581.23 2.76.115 3.048.733.805 1.179 1.825 1.179 3.09 0 4.413-2.688 5.39-5.247 5.678.417.36.776 1.05.776 2.128 0 1.538-.014 2.774-.014 3.162 0 .302.216.662.79.547C20.709 21.637 24 17.324 24 12.25 24 5.896 18.854.75 12.5.75Z">
+                </path>
+              </svg> GitHub
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav><!--  end navbar -->
+  <main class="container bg-white shadow p-3 my-4">
+    <section id="about" class="row about">
+      <div class="col-12">
+        <h2 class="card-title m-0">TrueCropper.js</h2>
+        <p class="lead2 mb-2">Lightweight, real-size image, vanilla JS image cropping tools</p>
+      </div>
+      <div class="col-12">
+        <p class="mb-1">Features:</p>
+        <ul dir="auto">
+          <li>Made only with native, delicious vanilla JS</li>
+          <li>Zero dependencies</li>
+          <li>No z-index, make modals easy</li>
+          <li>Work with real image pixel size</li>
+          <li>Supports touch devices</li>
+          <li>Set results in dataset of image</li>
+        </ul>
+      </div>
+      <div class="col-12">
+        <h4>Installation</h4>
+        <div style="max-width: 550px;">
+          <pre><code class="language-html">npm install truecropper</code></pre>
+        </div>
+      </div>
+      <div class="col-12">
+        <h4>Basic usage</h4>
+        <div style="max-width: 550px;">
+          <pre><code class="language-html">&lt;img src="image.jpg" id="myImageCropper" /&gt;
+
+&lt;script&gt;
+// import the library
+import TrueCropper from "truecropper";
+import "truecropper/dist/truecropper.css"; // or import "truecropper.scss"
+//.. other code ..//
+const cropper = new TrueCropper("#myImageCropper");
+const result = cropper.getValue();
+&lt;/script&gt;
+</code></pre>
+        </div>
+      </div>
+      <div class="col-12">
+        <h4>Working with Image Sizes in the Library</h4>
+        <p>In a browser, each image has two types of sizes:</p>
+        <ul>
+          <li><strong>Original size</strong> — the actual resolution of the image (e.g., 2048×2048).</li>
+          <li><strong>Displayed size</strong> — the size at which the image is rendered on the page (e.g.,
+            512×512).</li>
+        </ul>
+
+        <p><span>Getting Image Sizes in JavaScript</span></p>
+        <ul>
+          <li><strong>Displayed size</strong> can be obtained using <code>Image.width</code>.</li>
+          <li><strong>Original size</strong> (<code>Image.naturalWidth</code> and
+            <code>Image.naturalHeight</code>) becomes available only after the image has loaded. Attempting to
+            access it earlier will return <code>0</code>, which may cause a race condition. This is particularly
+            important when initializing tools such as cropping.
+          </li>
+        </ul>
+
+        <p>Unlike other cropping tools, the library provides three modes for working with image sizes:</p>
+        <ul>
+          <li><strong>Real (real)</strong> — operates with pixels of the original image
+            (<code>naturalWidth</code>, <code>naturalHeight</code>).</li>
+          <li><strong>Percentage-based (percent)</strong> — works with percentages of the original size.</li>
+          <li><strong>Relative (relative)</strong> — uses pixels based on the displayed size of the image on the
+            page.</li>
+        </ul>
+      </div>
+      <div class="col-12">
+        <h4>Cropping Initialization</h4>
+        <p>When initialized, the cropper modifies the DOM by replacing the <code
+            class="language-html">&lt;img&gt;</code> element with a <code
+            class="language-html">&lt;div class="truecropper"&gt;</code>. It then adds the original <code
+            class="language-html">&lt;img&gt;</code> inside this <code class="language-html">&lt;div&gt;</code>.
+          To prevent this behavior, add the <code class="language-html">truecropper</code> class to the parent
+          element.</p>
+        <div>
+          <pre><code class="language-html">&lt;div class="truecropper"&gt;&lt;img src="image.jpg" id="myImageCropper"/&gt;&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="col-12">
+        <h4>Component Settings</h4>
+        <p>
+          Settings can be specified in two ways:
+        </p>
+        <h5>Method 1</h5>
+        <p>
+          Create an instance of the component by passing an object with the settings, for example:
+        </p>
+        <pre><code class="language-javascript">const cropper = new TrueCropper("#imageId", { aspectRatio: 500/400, ... });</code></pre>
+        <h5>Method 2</h5>
+        <p>
+          Specify the parameters directly in the dataset attribute of the element with the id <code>imageId</code>,
+          for example:
+        </p>
+        <pre><code class="language-html">&lt;img src="..." data-truecropper-aspect-ratio="0.4" /&gt;</code></pre>
+        <p>
+          In this case, the settings specified via the dataset have higher priority.
+        </p>
+      </div>
+      <div class="col-12">
+        <h4>Retrieve Crop Region</h4>
+        <p>
+          The library supports two methods for obtaining the crop result. This flexibility allows you to choose the
+          method that best fits your application's needs.
+        </p>
+        <p>
+          <strong>Method 1:</strong> Use the <code class="language-javascript">getValue()</code> method.
+        </p>
+        <p>
+          When you call <code>getValue()</code> on your cropper instance, it returns an object containing the current
+          crop region’s coordinates and dimensions. This method is ideal if you want a simple, programmatic way to get
+          the crop data.
+        </p>
+        <pre><code class="language-javascript">const cropper = new TrueCropper("#myImage", {});
+const result = cropper.getValue();
+// result might be: { x: 10, y: 20, width: 200, height: 150 }</code></pre>
+        <p>
+          <strong>Method 2:</strong> Retrieve the values directly from the image's dataset.
+        </p>
+        <p>
+          The crop values are stored as data attributes on the image element. You can access these values by querying
+          the element’s <code>dataset</code>. This method is useful if you need to work directly with the DOM or
+          integrate with other scripts that expect data attributes.
+        </p>
+        <pre><code class="language-javascript">const dataset = document.querySelector("#myImage").dataset;
+const cropData = {
+  x: dataset.truecropperX,
+  y: dataset.truecropperY,
+  width: dataset.truecropperWidth,
+  height: dataset.truecropperHeight
+};</code></pre>
+      </div>
+      <div class="col-12">
+        <h4>Notes on Percentage Values</h4>
+        <p>
+          If you use percentage values for the crop region, note that the cropper does not return a decimal (e.g.,
+          <code>0.8</code>) but rather the whole number percentage (e.g., <code>80</code>), representing 80%.
+        </p>
+        <p>
+          Similarly, when using the <code>setValue</code> method to define the crop region, you should provide
+          percentage values as integers (for example, <code>80</code>) rather than as decimals (for example,
+          <code>0.8</code>).
+        </p>
+      </div>
+      <div class="col-12">
+        <h4>Crop Component Parameters: <code>startSize</code> vs. <code>defaultSize</code></h4>
+        <p>
+          The <code>startSize</code> parameter is used during the initial initialization of the crop component to set
+          the starting dimensions and position of the cropping area. The <code>defaultSize</code> parameter, on the
+          other hand, is used to initialize the component when a new image is loaded.
+        </p>
+        <p>
+          If <code>defaultSize</code> is provided and <code>startSize</code> is not, then <code>defaultSize</code>
+          will be used as the initial settings.
+        </p>
+        <p>
+          So why is the <code>startSize</code> parameter needed? Consider the following example. Suppose you have an
+          avatar upload form where the default crop settings are defined as:
+        </p>
+        <p>
+          <code>{ x: 0, y: 0, width: 50%, height: 50% }</code>.
+        </p>
+        <p>
+          A user uploads an image with crop settings of:
+        </p>
+        <p>
+          <code>{ x: 10%, y: 10%, width: 50%, height: 50% }</code>.
+        </p>
+        <p>
+          Later, when the edit form is opened, you need to display the crop settings
+          <code>{ x: 10%, y: 10%, width: 50%, height: 50% }</code> that the user previously set. However, if the image
+          is changed, you want to revert to the default crop settings, for example with centered coordinates and
+          dimensions <code>{ width: 50%, height: 50% }</code>.
+        </p>
+        <p>
+          To address this scenario, you should set:
+        </p>
+        <ul>
+          <li>
+            <code>startSize</code>: <code>{ x: 10%, y: 10%, width: 50%, height: 50% }</code> – to display the crop
+            settings saved by the user during editing.
+          </li>
+          <li>
+            <code>defaultSize</code>: <code>{ x: 0, y: 0, width: 50%, height: 50% }</code> – to be used when a new
+            image is loaded.
+          </li>
+        </ul>
+      </div>
+      <div class="col-12">
+        <h4>How to center crop area</h4>
+        <p>
+          If the <code>x</code> or <code>y</code> coordinates are not specified in the <code>startSize</code> or
+          <code>defaultSize</code> settings, then after the component is initialized, the crop area is automatically
+          centered.
+        </p>
+      </div>
+      <div class="col-12">
+        <h4>Touch Devices CSS Behavior</h4>
+        <p>
+          On touch devices, the control elements (<code>handles</code>) used to move the crop area are enlarged
+          threefold to provide easier interaction with less precise input methods. If you want to change this
+          behavior, modify the following CSS code:
+        </p>
+        <pre><code class="language-css">@media (hover: none) and (pointer: coarse) {
+  .truecropper__handle {
+      width: 30px;
+      height: 30px;
+    }
+}
+</code></pre>
+        <p>
+          This media query applies only to devices that do not support hover and use coarse pointers—a typical
+          characteristic of touch screens. Here, the control points are set to 30px in both width and height, but
+          you can adjust these values to better suit your requirements.
+        </p>
+
+      </div>
+      <div class="col-12">
+        <h4>What is epsilon</h4>
+        <p>
+          When running the program, values containing subpixels are generated. The returned value is rounded to
+          whole
+          pixels, which may lead to the image’s aspect ratio (width/height) on the server not matching the expected
+          <strong>aspectRatio</strong>.
+        </p>
+        <p>
+          To correct these distortions and other rounding errors when working with floating-point numbers, the
+          following check is used:
+        </p>
+        <pre><code class="language-javascript">if (Math.abs(width / height - aspectRatio) &lt; epsilon) {
+  // The value is considered valid
+}</code></pre>
+        <p>
+          Here, <strong>epsilon</strong> is a small positive value that accounts for calculation inaccuracies. The
+          default value for <strong>epsilon</strong> is <code>0.05</code>, but you can adjust it in the options to
+          suit your
+          requirements. This approach ensures that even minor rounding errors in the computed aspect ratio are
+          considered acceptable.
+        </p>
+      </div>
+      <div class="col-12">
+        <h4>Using the <code>onError</code> function</h4>
+        <p>
+          You can set an <code>onError</code> function for the cropper to handle errors that occur during the
+          initialization or when the image's <code>src</code> is updated. For example:
+        </p>
+        <pre><code class="language-javascript">new TrueCropper("#imageId", {
+onError: (instance, error) => {
+// some code
+}
+});</code></pre>
+        <p>
+          This function is triggered primarily when there are errors in the cropper's initialization or when the image's
+          <code>src</code> is updated. Refer to the documentation for a list of possible errors. For instance, this
+          function can be useful for handling a <code>minSize</code> error if the image is smaller than the specified
+          <code>minSize</code>.
+        </p>
+      </div>
+      <div class="col-12">
+        <h4>Maximum image height recommendation</h4>
+        <p>
+          By default, the cropper does not have a maximum image height set in the DOM. It is recommended that you set it
+          manually. For example:
+        </p>
+        <pre><code class="language-css">.my-image {
+  max-height: 300px;
+}
+</code></pre>
+      </div>
+    </section>
+    <hr>
+
+
+
+    <section id="demo">
+      <div class="row">
+        <div class="col-12">
+          <h2>Demo</h2>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="alert alert-dark text-center mb-2" id="demoValues" role="alert">
+            <span class="m-0">Selection value </span>
+            <strong>x:</strong><span id="demoValuesX">0</span>
+            <strong>y:</strong><span id="demoValuesY">0</span>
+            <strong>width:</strong><span id="demoValuesWidth">0</span>
+            <strong>height:</strong><span id="demoValuesHeight">0</span>
+          </div>
+          <div class="truecropper">
+            <img style="width: 100%;" src="./static/image.jpg" id="trueCropper" />
+          </div>
+          <div class="alert alert-danger d-none" id="demoError" role="alert"></div>
+        </div>
+        <div class="col-12 col-lg-7">
+          <form id="trueCropperForm">
+            <div class="row">
+
+              <div class="col-12 col-sm-6">
+                <div class="custom-group">
+                  <label class="form-label" for="demoFile">Change image</label>
+                  <input class="form-control" type="file" id="demoFile">
+                </div>
+
+                <div class="custom-group mt-2">
+                  <div class="d-flex justify-content-between">
+                    <label>aspectRatio</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="minSizeCheckbox"
+                        data-checkbox="values">
+                      <label class="form-check-label" for="minSizeCheckbox">Enable</label>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">A</span>
+                    <input type="number" class="form-control" value="1.0" aria-label="width" name="demo[aspectRatio]"
+                      disabled>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 offset-sm-1 col-sm-5 d-flex flex-column justify-content-end pb-3">
+                <div class="d-flex flex-column align-items-start">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked value="" id="demoNew"
+                      name="demo[allowNewSelection]">
+                    <label class="form-check-label" for="demoNew">Allow new selection</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked value="" id="demoResize"
+                      name="demo[allowResize]">
+                    <label class="form-check-label" for="demoResize">Allow resize</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked value="" id="demoMove"
+                      name="demo[allowMove]">
+                    <label class="form-check-label" for="demoMove">Allow move</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked value="" id="demoFlipped"
+                      name="demo[allowFlip]">
+                    <label class="form-check-label" for="demoFlipped">Allow flip</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="custom-group">
+              <div class="d-flex justify-content-between">
+                <label>Maximum size</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="maxSizeCheckbox" data-checkbox="values">
+                  <label class="form-check-label" for="maxSizeCheckbox">Enable</label>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">W</span>
+                <input type="number" class="form-control" value="100" aria-label="width" disabled
+                  name="demo[maxSize][width]">
+                <span class="input-group-text">H</span>
+                <input type="number" class="form-control" value="100" aria-label="height" disabled
+                  name="demo[maxSize][height]">
+                <select class="form-select" disabled name="demo[maxSize][unit]"
+                  style="max-width: 80px; min-width: 80px;">
+                  <option>real</option>
+                  <option>percent</option>
+                  <option>relative</option>
+                </select>
+              </div>
+            </div>
+            <div class="custom-group">
+              <div class="d-flex justify-content-between">
+                <label>Minimum size</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="minSizeCheckbox" data-checkbox="values">
+                  <label class="form-check-label" for="minSizeCheckbox">Enable</label>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">W</span>
+                <input type="number" class="form-control" value="100" aria-label="width" disabled
+                  name="demo[minSize][width]">
+                <span class="input-group-text">H</span>
+                <input type="number" class="form-control" value="100" aria-label="height" disabled
+                  name="demo[minSize][height]">
+                <select class="form-select" disabled name="demo[minSize][unit]"
+                  style="max-width: 80px; min-width: 80px;">
+                  <option>real</option>
+                  <option>percent</option>
+                  <option>relative</option>
+                </select>
+              </div>
+            </div>
+            <div class="custom-group">
+              <div class="d-flex justify-content-between">
+                <label>Start size</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="startCheckbox" data-checkbox="values">
+                  <label class="form-check-label" for="startCheckbox">Enable</label>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+
+                <span class="input-group-text">x</span>
+                <input type="number" class="form-control" value="0" aria-label="width" disabled
+                  name="demo[startSize][x]" style="min-width: 60px;">
+
+                <span class="input-group-text">y</span>
+                <input type="number" class="form-control" value="0" aria-label="width" disabled
+                  name="demo[startSize][y]" style="min-width: 60px;">
+
+                <span class="input-group-text">W</span>
+                <input type="number" class="form-control" value="100" aria-label="width" disabled
+                  name="demo[startSize][width]" style="min-width: 60px;">
+
+                <span class="input-group-text">H</span>
+                <input type="number" class="form-control" value="100" aria-label="height" disabled
+                  name="demo[startSize][height]" style="min-width: 60px;">
+
+                <select class="form-select" disabled name="demo[startSize][unit]"
+                  style="max-width: 80px; min-width: 80px;">
+                  <option>real</option>
+                  <option>percent</option>
+                  <option>relative</option>
+                </select>
+              </div>
+            </div>
+            <div class="custom-group">
+              <div class="d-flex justify-content-between">
+                <label>Default size</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="startCheckbox" data-checkbox="values">
+                  <label class="form-check-label" for="startCheckbox">Enable</label>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+
+                <span class="input-group-text">x</span>
+                <input type="number" class="form-control" value="0" aria-label="width" disabled
+                  name="demo[defaultSize][x]" style="min-width: 60px;">
+
+                <span class="input-group-text">y</span>
+                <input type="number" class="form-control" value="0" aria-label="width" disabled
+                  name="demo[defaultSize][y]" style="min-width: 60px;">
+
+                <span class="input-group-text">W</span>
+                <input type="number" class="form-control" value="100" aria-label="width" disabled
+                  name="demo[defaultSize][width]" style="min-width: 60px;">
+
+                <span class="input-group-text">H</span>
+                <input type="number" class="form-control" value="100" aria-label="height" disabled
+                  name="demo[defaultSize][height]" style="min-width: 60px;">
+
+                <select class="form-select" disabled name="demo[defaultSize][unit]"
+                  style="max-width: 80px; min-width: 80px;">
+                  <option>real</option>
+                  <option>percent</option>
+                  <option>relative</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <!-- end -->
+        </div>
+      </div>
+    </section>
+    <hr>
+
+
+
+
+    <section class="mt-4" id="examples">
+      <div class="row">
+        <div class="col-12">
+          <h2>Examples</h2>
+        </div>
+        <div class="col-12">
+          <h4 class="h4">moveTo, setValue, resizeTo, scaleBy functions</h4>
+          <p>This example illustrates various methods for managing the cropping area.</p>
+          <div class="image-container">
+            <div class="truecropper"><img src="./static/04.jpg" id="example4" class="example4" />
+            </div>
+          </div>
+          <div class="w-100 mt-2">
+            <div class="demo-controlls btn-group">
+              <div class="btn-group-vertical">
+                <button type="button" class="btn btn-sm btn-success" id="example4ResizeLeftTop">Resize
+                  Left-Top</button>
+                <button type="button" class="btn btn-sm btn-light" id="example4MoveLeft">Move Left</button>
+                <button type="button" class="btn btn-sm btn-success" id="example4ResizeLeftBottom">Resize
+                  Left-Bottom</button>
+              </div>
+              <div class="btn-group-vertical">
+                <button type="button" class="btn btn-sm btn-light" id="example4MoveTop">Move Top</button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-primary" id="example4DownScale">-</button>
+                  <button type="button" class="btn btn-sm btn-danger" id="example4UpScale">+</button>
+                </div>
+                <button type="button" class="btn btn-sm btn-light" id="example4MoveBottom">Move Bottom</button>
+              </div>
+              <div class="btn-group-vertical">
+                <button type="button" class="btn btn-sm btn-success" id="example4ResizeRightTop">Resize
+                  Right-Top</button>
+                <button type="button" class="btn btn-sm btn-light" id="example4MoveRight">Move Right</button>
+                <button type="button" class="btn btn-sm btn-success" id="example4ResizeRightBottom">Resize
+                  Right-Bottom</button>
+              </div>
+            </div>
+          </div>
+          <details class="mt-3">
+            <summary>code</summary>
+            <pre><code class="language-typescript">
+const imageElement = document.querySelector("#example4") as HTMLImageElement;
+const cropper = new TrueCropper(imageElement);
+
+document.querySelector("#example4MoveLeft")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  cropper.moveTo({ x: currentValue.x - 10, y: currentValue.y });
+})
+document.querySelector("#example4MoveRight")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  cropper.moveTo({ x: currentValue.x + 10, y: currentValue.y });
+})
+document.querySelector("#example4MoveTop")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  cropper.moveTo({ x: currentValue.x, y: currentValue.y - 10 });
+})
+document.querySelector("#example4MoveBottom")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  cropper.moveTo({ x: currentValue.x, y: currentValue.y + 10 });
+})
+
+document.querySelector("#example4ResizeLeftTop")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  // for example use setValue
+  const status = cropper.setValue({ x: currentValue.x - 10, y: currentValue.y - 10, width: currentValue.width + 10, height: currentValue.height + 10 });
+  console.log(status);
+})
+document.querySelector("#example4ResizeLeftBottom")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  // for example use setValue
+  const status = cropper.setValue({ x: currentValue.x - 10, y: currentValue.y, width: currentValue.width + 10, height: currentValue.height + 10 });
+  console.log(status);
+})
+document.querySelector("#example4ResizeRightTop")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  // for example use resizeTo
+  const status = cropper.resizeTo({ width: currentValue.width + 10, height: currentValue.height + 10 }, { x: 0, y: 1 });
+  console.log(status);
+})
+document.querySelector("#example4ResizeRightBottom")?.addEventListener("click", () => {
+  const currentValue = cropper.getValue();
+  // for example use resizeTo
+  const status = cropper.resizeTo({ width: currentValue.width + 10, height: currentValue.height + 10 }, { x: 0, y: 0 });
+  console.log(status);
+})
+
+document.querySelector("#example4DownScale")?.addEventListener("click", () => {
+  // { x: 0.5, y: 0.5 } is center
+  // { x: 0, y: 1 } is left bottom
+  // { x: 1, y: 0 } is right top
+  // { x: 0.4, y: 0.3 } is 40% from left, is 30% from top
+  const status = cropper.scaleBy(0.5, { x: 0.5, y: 0.5 });
+  console.log(status);
+})
+document.querySelector("#example4UpScale")?.addEventListener("click", () => {
+  const status = cropper.scaleBy(2);
+  console.log(status);
+})
+</code></pre>
+          </details>
+        </div>
+        <div class="col-12 mt-3">
+          <h4 class="h4">Image preview</h4>
+          <p>This example demonstrates how to implement an image preview feature.</p>
+          <div class="d-flex">
+            <div>
+              <div class="truecropper"><img src="./static/01.jpg" id="example5" class="example5" />
+              </div>
+            </div>
+            <div class="ms-3">
+              <div>preview</div>
+              <img src="" id="examplePreview5" class="example5" style="width: 200px; height: 200px;" />
+            </div>
+          </div>
+          <details class="mt-3">
+            <summary>code</summary>
+            <pre><code class="language-typescript">
+const imageElement = document.querySelector("#example5") as HTMLImageElement;
+const imageElementPreview = document.querySelector("#examplePreview5") as HTMLImageElement;
+const cropper = new TrueCropper(imageElement, {
+  onCropEnd: (instance, data) => {
+    const canvas = instance.getImagePreview();
+    if (canvas) {
+      imageElementPreview.src = canvas.toDataURL();
+    }
+  }
+});
+</code></pre>
+          </details>
+        </div>
+        <div class="col-12 mt-3">
+          <h4 class="h4">Image replace via file input</h4>
+          <p>The cropper supports replacing the image through a file input element. You can attach an event handler to
+            the file input so that when a user selects a new image, it automatically loads into the cropper, replacing
+            the current image.</p>
+          <div>
+            <div class="file-input-width mb-2"><input type="file" class="form-control" id="exampleInput1" /></div>
+            <div class="image-container">
+              <div class="truecropper"><img src="./static/02.jpg" id="example1" class="example1" /></div>
+            </div>
+          </div>
+          <details class="mt-3">
+            <summary>code</summary>
+            <pre><code class="language-typescript">// Select the image element for cropping
+const imageElement = document.querySelector("#myImage") as HTMLImageElement;
+const cropper = new TrueCropper(imageElement);
+
+// Select the file input element
+const fileInput = document.querySelector("#myFileInput");
+
+// Add an event listener for file input change
+fileInput?.addEventListener("change", (event) => {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  // Exit if no files are selected
+  if (!files || files.length === 0) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const result = event.target?.result;
+    if (!result) return;
+
+    // Set the cropped image source
+    cropper.setImage(result.toString());
+    // Alternatively, update the image element's source directly
+    // imageElement.src = result.toString();
+  };
+
+  // Read the selected file as a data URL
+  reader.readAsDataURL(files[0]);
+});</code></pre>
+          </details>
+          <hr>
+        </div>
+        <div class="col-12 mt-3">
+          <h4 class="h4">Modal</h4>
+          <p>This example demonstrates how to change the image using a button, which then opens a modal window where the
+            cropping interface is presented. This approach allows the user to work with the image in a dedicated,
+            isolated interface, improving the editing experience and ensuring that the cropping functionality is easily
+            accessible.</p>
+          <button type="button" class="btn btn-light example-button-2" data-bs-toggle="modal"
+            data-bs-target="#exampleModal2">
+            <img src="" id="exampleButtonImage2" class="example-button-image2" />
+          </button>
+          <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div>
+                    <div class="file-input-width mb-2"><input type="file" class="form-control" id="exampleInput2" />
+                    </div>
+                    <div class="image-container">
+                      <div class="truecropper"><img src="./static/03.jpg" id="example2" class="example2" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <details class="mt-3">
+            <summary>code</summary>
+            <pre><code class="language-typescript">// Select the image element for cropping
+const imageElement = document.querySelector("#example2") as HTMLImageElement;
+const imageElementButton = document.querySelector("#exampleButtonImage2") as HTMLImageElement;
+const cropper = new TrueCropper(imageElement, {
+  aspectRatio: 1,
+  onCropEnd: (instance, data) => {
+    const canvas = instance.getImagePreview();
+    if(canvas) {
+      imageElementButton.src = canvas.toDataURL();
+    }
+  },
+});
+
+imageElementButton.src = imageElement.src;
+// Select the file input element
+const fileInput = document.querySelector("#exampleInput2");
+
+// Add an event listener for file input change
+fileInput?.addEventListener("change", (event) => {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  // Exit if no files are selected
+  if (!files || files.length === 0) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const result = event.target?.result;
+    if (!result) return;
+
+    // Set the cropped image source
+    cropper.setImage(result.toString());
+  };
+
+  // Read the selected file as a data URL
+  reader.readAsDataURL(files[0]);
+});</code></pre>
+          </details>
+        </div>
+        <div class="col-12 mt-3">
+          <h4 class="h4">onError</h4>
+          <p>This example shows how to use the onError handler to catch errors that occur during the cropper's
+            operation. For instance, if the loaded image is smaller than the specified minSize, the onError function
+            will be triggered. This allows you to implement additional logic, such as displaying an error message or
+            reverting to alternative settings, to handle such cases gracefully.</p>
+          <p>The minimum size of image is 500x500</p>
+          <div>
+            <div class="file-input-width mb-2"><input type="file" class="form-control" id="exampleInput3" /></div>
+            <div class="image-container">
+              <div class="truecropper"><img src="" id="example3" class="example3" /></div>
+            </div>
+          </div>
+          <div class="alert alert-danger d-none" id="exampleError3"></div>
+          <details class="mt-3">
+            <summary>code</summary>
+            <pre><code class="language-typescript">
+const errorDiv = document.querySelector("#exampleError3") as HTMLImageElement;
+// Select the image element for cropping
+const imageElement = document.querySelector("#example3") as HTMLImageElement;
+const cropper = new TrueCropper(imageElement, {
+  minSize: {
+    width: 500,
+    height: 500
+  },
+  onError: (instance, error) => {
+    errorDiv.innerText = error.message;
+    errorDiv.classList.remove('d-none');
+    imageElement.classList.add('d-none');
+  }
+});
+
+// Select the file input element
+const fileInput = document.querySelector("#exampleInput3");
+
+// Add an event listener for file input change
+fileInput?.addEventListener("change", (event) => {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  // Exit if no files are selected
+  if (!files || files.length === 0) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const result = event.target?.result;
+    if (!result) return;
+
+    errorDiv.innerText = "";
+    errorDiv.classList.add('d-none');
+    // Set the cropped image source
+    // cropper.setImage(result.toString());
+    imageElement.src = result.toString();
+    imageElement.classList.remove('d-none');
+  };
+
+  // Read the selected file as a data URL
+  reader.readAsDataURL(files[0]);
+});
+</code></pre>
+          </details>
+        </div>
+      </div> <!-- end row -->
+    </section>
+    <hr>
+
+
+
+    <section id="documentation" class="my-4">
+      <h2>Options</h2>
+      <h4 class="h4 mt-3">Configuration options</h4>
+
+      <h5><code>aspectRatio</code></h5>
+      <p class="mb-1">Sets a fixed aspect ratio for the crop region.</p>
+      <ul>
+        <li><strong>Type:</strong> Number</li>
+        <li><strong>Default:</strong> null</li>
+        <li><strong>Example:</strong> <code>aspectRatio: 1</code> (for a square crop)</li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-aspect-ratio</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h5><code>epsilon</code></h5>
+      <p class="mb-1">Epsilon is a small positive value that takes into account the inaccuracies in the calculations of
+        the aspect.</p>
+      <ul>
+        <li><strong>Type:</strong> Number</li>
+        <li><strong>Default:</strong> 0.05</li>
+        <li><strong>Example:</strong> <code>epsilon: 0.005</code></li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-epsilon</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h5><code>maxSize</code></h5>
+      <p class="mb-1">Defines the maximum allowable dimensions for the crop region.</p>
+      <ul>
+        <li><strong>Type:</strong> { width?, height?, unit? }</li>
+        <li><strong>Default:</strong> null</li>
+        <li><strong>Example:</strong> <code>maxSize: [50, 50, 'percent']</code> (limits to 50% of the image size)</li>
+        <li>
+          <strong>Dataset attribute names:</strong>
+          <ul>
+            <li><code>data-truecropper-max-size-width</code></li>
+            <li><code>data-truecropper-max-size-height</code></li>
+            <li><code>data-truecropper-max-size-unit</code></li>
+          </ul>
+        </li>
+      </ul>
+      <p><em>Note: <code>unit</code> accepts a value of <strong>'real'</strong>, <strong>'percent'</strong>, or
+          <strong>'relative'</strong>. Defaults to <strong>'real'</strong>.</em></p>
+
+      <h5><code>minSize</code></h5>
+      <p class="mb-1">Specifies the minimum dimensions for the crop region.</p>
+      <ul>
+        <li><strong>Type:</strong> { width?, height?, unit? }</li>
+        <li><strong>Default:</strong> null</li>
+        <li><strong>Example:</strong> <code>minSize: [20, 20, 'real']</code> (minimum dimensions of 20px by 20px)</li>
+        <li>
+          <strong>Dataset attribute names:</strong>
+          <ul>
+            <li><code>data-truecropper-min-size-width</code></li>
+            <li><code>data-truecropper-min-size-height</code></li>
+            <li><code>data-truecropper-min-size-unit</code></li>
+          </ul>
+        </li>
+      </ul>
+      <p><em>Note: <code>unit</code> accepts a value of <strong>'real'</strong>, <strong>'percent'</strong>, or
+          <strong>'relative'</strong>. Defaults to <strong>'real'</strong>.</em></p>
+
+      <h5><code>startSize</code></h5>
+      <p class="mb-1">Determines the initial crop region when the cropper is <strong>first</strong> initialized.</p>
+      <ul>
+        <li><strong>Type:</strong> { x?, y?, width?, height?, unit? }</li>
+        <li><strong>Default:</strong> [0, 0, 100, 100, 'percent'] (maximizes the crop region)</li>
+        <li><strong>Example:</strong> <code>startSize: [0, 0, 50, 50, "real"]</code></li>
+        <li>
+          <strong>Dataset attribute names:</strong>
+          <ul>
+            <li><code>data-truecropper-start-size-x</code></li>
+            <li><code>data-truecropper-start-size-y</code></li>
+            <li><code>data-truecropper-start-size-width</code></li>
+            <li><code>data-truecropper-max-start-height</code></li>
+            <li><code>data-truecropper-start-size-unit</code></li>
+          </ul>
+        </li>
+      </ul>
+      <p>
+        <em>Note:</em> <code>unit</code> accepts a value of <strong>'real'</strong>, <strong>'percent'</strong>, or
+        <strong>'relative'</strong>. Defaults to <strong>'real'</strong>.
+        <br>
+        <em>Note2:</em> If <code>x</code> is not defined, the crop region is centered horizontally. If <code>y</code> is
+        undefined, it is centered vertically.
+        <br>
+        <em>Note3:</em> If <code>startSize</code> is undefined, for the first initialized used <code>defaultSize</code>.
+      </p>
+
+      <h5><code>defaultSize</code></h5>
+      <p class="mb-1">Specifies the crop region size for subsequent initializations (e.g., after calling
+        <code>instance.setImage()</code>).
+      </p>
+      <ul>
+        <li><strong>Type:</strong> { x?, y?, width?, height?, unit? }</li>
+        <li><strong>Default:</strong> [0, 0, 100, 100, 'percent'] (A starting crop region as large as possible)</li>
+        <li><strong>Example:</strong> <code>defaultSize: [50, 50]</code> (positioned at 50,50 with maximum crop area)
+        </li>
+        <li>
+          <strong>Dataset attribute names:</strong>
+          <ul>
+            <li><code>data-truecropper-default-size-x</code></li>
+            <li><code>data-truecropper-default-size-y</code></li>
+            <li><code>data-truecropper-default-size-width</code></li>
+            <li><code>data-truecropper-max-default-height</code></li>
+            <li><code>data-truecropper-default-size-unit</code></li>
+          </ul>
+        </li>
+      </ul>
+      <p>
+        <em>Note:</em> <code>unit</code> accepts a value of <strong>'real'</strong>, <strong>'percent'</strong>, or
+        <strong>'relative'</strong>. Defaults to <strong>'real'</strong>.
+        <br>
+        <em>Note2:</em> If <code>x</code> is undefined, the crop region is centered horizontally. If <code>y</code> is
+        undefined, it is centered vertically.
+      </p>
+
+      <h5><code>returnMode</code></h5>
+      <p class="mb-1">Determines how the crop region values are returned.</p>
+      <ul>
+        <li><strong>Type:</strong> String</li>
+        <li><strong>Default:</strong> "real"</li>
+        <li>
+          <strong>Possible values:</strong>
+          <ul>
+            <li><code>real</code>: Returns values based on the image's original dimensions.</li>
+            <li><code>percent</code>: Returns values as a percentage.</li>
+            <li><code>relative</code>: Returns values based on the image's displayed size in the DOM.</li>
+          </ul>
+        </li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-return-mode</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h5><code>allowFlip</code></h5>
+      <p class="mb-1">Determines whether the crop selection can be flipped horizontally and vertically.</p>
+      <ul>
+        <li><strong>Type:</strong> Boolean</li>
+        <li><strong>Default:</strong> true</li>
+        <li><strong>Example:</strong> <code>allowFlip: false</code></li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-allow-flip</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h5><code>allowNewSelection</code></h5>
+      <p class="mb-1">Controls whether the user can create a new selection on the image.</p>
+      <ul>
+        <li><strong>Type:</strong> Boolean</li>
+        <li><strong>Default:</strong> true</li>
+        <li><strong>Example:</strong> <code>allowNewSelection: false</code></li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-allow-new-selection</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h5><code>allowMove</code></h5>
+      <p class="mb-1">Enables or disables the ability to move the crop selection around the image.</p>
+      <ul>
+        <li><strong>Type:</strong> Boolean</li>
+        <li><strong>Default:</strong> true</li>
+        <li><strong>Example:</strong> <code>allowMove: true</code></li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-allow-move</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h5><code>allowResize</code></h5>
+      <p class="mb-1">Controls whether the crop selection can be resized.</p>
+      <ul>
+        <li><strong>Type:</strong> Boolean</li>
+        <li><strong>Default:</strong> true</li>
+        <li><strong>Example:</strong> <code>allowResize: true</code></li>
+        <li><strong>Dataset attribute name:</strong>
+          <ul>
+            <li><code>data-truecropper-allow-resize</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4 class="h4">Callback Functions</h4>
+
+      <h5><code>onInitialize</code></h5>
+      <p class="mb-1">Invoked before the cropping interface is rendered.</p>
+      <ul>
+        <li><strong>Type:</strong> Function</li>
+        <li><strong>Arguments:</strong> <code>instance</code>(the current cropper instance),
+          <code>data = { x, y, width, height }</code>
+        </li>
+        <li><strong>Example:</strong></li>
+      </ul>
+      <pre><code class="language-javascript">onInitialize: function(instance, data) {
+  // do things here
+}</code></pre>
+
+      <h5><code>onCropStart</code></h5>
+      <p class="mb-1">Called when the user begins modifying the crop region.</p>
+      <ul>
+        <li><strong>Type:</strong> Function</li>
+        <li><strong>Arguments:</strong> <code>instance</code>, <code>data = { x, y, width, height }</code></li>
+        <li><strong>Example:</strong></li>
+      </ul>
+      <pre><code class="language-javascript">onCropStart: function(instance, data) {
+  console.log(data.x, data.y, data.width, data.height);
+}</code></pre>
+
+      <h5><code>onCropChange</code></h5>
+      <p class="mb-1">Fires continuously as the crop region is being adjusted.</p>
+      <ul>
+        <li><strong>Type:</strong> Function</li>
+        <li><strong>Arguments:</strong> <code>instance</code>, <code>data = { x, y, width, height }</code></li>
+        <li><strong>Example:</strong></li>
+      </ul>
+      <pre><code class="language-javascript">onCropChange: function(instance, data) {
+  console.log(data.x, data.y, data.width, data.height);
+}</code></pre>
+
+      <h5><code>onCropEnd</code></h5>
+      <p class="mb-1">Triggered when the user finishes adjusting the crop region.</p>
+      <ul>
+        <li><strong>Type:</strong> Function</li>
+        <li><strong>Arguments:</strong> <code>instance</code>, <code>data = { x, y, width, height }</code></li>
+        <li><strong>Example:</strong></li>
+      </ul>
+      <pre><code class="language-javascript">onCropEnd: function(instance, data) {
+  console.log(data.x, data.y, data.width, data.height);
+}</code></pre>
+
+      <h5><code>onError</code></h5>
+      <p class="mb-1">Invoked when an error occurs during initialization or when the image source is updated.</p>
+      <ul>
+        <li><strong>Type:</strong> Function</li>
+        <li><strong>Arguments:</strong> <code>instance</code>, <code>data = CallbackError</code> (see CallbackError
+          below)</li>
+        <li><strong>Example:</strong></li>
+      </ul>
+      <pre><code class="language-javascript">onError: function(instance, data) {
+  console.error(data.message);
+}</code></pre>
+
+      <hr>
+      <h2>Methods</h2>
+      <p>The following methods enable interaction with the TrueCropper instance:</p>
+
+      <h5><code>getValue(returnMode?: string): { x, y, width, height }</code></h5>
+      <p class="mb-1">
+        Returns the crop region's values, rounded to whole numbers. If no <code>returnMode</code> is specified, it
+        defaults to the option provided during initialization.
+      </p>
+      <pre><code class="language-javascript">const value = cropInstance.getValue();
+// value = { x: 21, y: 63, width: 120, height: 120 }
+
+const percentValue = cropInstance.getValue("percent");
+// percentValue = { x: 10, y: 30, width: 57, height: 57 }</code></pre>
+
+      <h5><code>getImagePreview(): HTMLCanvasElement</code></h5>
+      <p class="mb-1">Returns a preview of the cropped image.</p>
+      <pre><code class="language-javascript">const canvas = cropper.getImagePreview();
+imagePreview.src = canvas.toDataURL();</code></pre>
+
+      <h5><code>getImageProps(): { real: { width, height }, relative: { width, height } }</code></h5>
+      <p class="mb-1">
+        Returns an object with the image's dimensions in both its real and relative sizes:
+        <code class="language-javascript">{ real: { width, height }, relative: { width, height } }</code>.
+      </p>
+      <p>If the status is not <code>ready</code>, it returns zero or the previous image values for width and height.</p>
+
+      <h5><code>getStatus(): TrueCropperStatus</code></h5>
+      <p>Retrieves the current status of the TrueCropper instance.</p>
+
+      <h5><code>moveTo({ x, y }, mode?): void</code></h5>
+      <p>Moves the crop region to the specified coordinates.</p>
+
+      <h5><code>setValue({ x, y, width, height }, mode?): { ok, message }</code></h5>
+      <p>Sets the crop region with the specified properties.</p>
+
+      <h5><code>resizeTo({ width, height }, { x, y }?, mode?): { ok, message }</code></h5>
+      <p class="mb-1">
+        Resizes the crop region to the specified dimensions.
+      </p>
+      <p>The optional <code>{ x, y }</code> parameter specifies the origin
+        point for resizing. Defaults to <code>{ x: 0.5, y: 0.5 }</code> (center).</p>
+
+      <h5><code>scaleBy(factor, { x, y }?, mode?): { ok, message }</code></h5>
+      <p class="mb-1">
+        Scales the crop region by the given factor.
+      </p>
+      <p>The optional <code>{ x, y }</code> parameter specifies the origin
+        point for resizing. Defaults to <code>{ x: 0.5, y: 0.5 }</code> (center).</p>
+
+      <h5><code>setImage(src: string)</code></h5>
+      <p>Changes the image source to the specified URL.</p>
+
+      <h5><code>reset()</code></h5>
+      <p>Resets the crop region to its default position and size.</p>
+
+      <h5><code>destroy()</code></h5>
+      <p>Destroys the TrueCropper instance and restores the original <code>&lt;img&gt;</code> element.</p>
+
+      <hr>
+      <h2>Statuses</h2>
+      <p>
+        TrueCropper.js maintains its current status in the image's dataset, and you can also query it using the
+        <code>getStatus()</code> method. The possible statuses are:
+      </p>
+      <ul>
+        <li><strong>waiting:</strong> Waiting to initialize.</li>
+        <li><strong>ready:</strong> Ready to work.</li>
+        <li><strong>reloading:</strong> Image uploading in progress.</li>
+        <li><strong>error:</strong> Error during initialization.</li>
+      </ul>
+
+      <hr>
+      <h2>Errors</h2>
+      <p>
+        When an image is initialized or reloaded, TrueCropper.js validates the initialization parameters.
+        If an error occurs, the <code>onError</code> callback is fired (if set); otherwise, the error propagates.
+      </p>
+      <p>List of possible errors:</p>
+      <ul>
+        <li>
+          <strong>DOM element specified in selector not found</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperHtmlError</code></li>
+            <li><strong>Message:</strong> "Unable to find element"</li>
+            <li><strong>Message ID:</strong> 0</li>
+            <li><strong>Data:</strong> {}</li>
+          </ul>
+        </li>
+        <li>
+          <strong>The DOM element is not an image element</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperHtmlError</code></li>
+            <li><strong>Message:</strong> "Image src not provided"</li>
+            <li><strong>Message ID:</strong> 1</li>
+            <li><strong>Data:</strong> {}</li>
+          </ul>
+        </li>
+        <li>
+          <strong>A DOM element has no parent DOM element</strong> (usually, this error is rare as the element is at
+          least in the body tag)
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperHtmlError</code></li>
+            <li><strong>Message:</strong> "Parent element can be exists"</li>
+            <li><strong>Message ID:</strong> 2</li>
+            <li><strong>Data:</strong> {}</li>
+          </ul>
+        </li>
+        <li>
+          <strong>The type of configuration parameters or dataset does not match the required data type</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperOptionsError</code></li>
+            <li><strong>Message:</strong> "{name} must be {object}"</li>
+            <li><strong>Message ID:</strong> 3</li>
+            <li><strong>Data:</strong> { name, object }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Configuration parameters or dataset contain an invalid value (e.g., NaN)</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperOptionsError</code></li>
+            <li><strong>Message:</strong> "{name} must not be {object}"</li>
+            <li><strong>Message ID:</strong> 4</li>
+            <li><strong>Data:</strong> { name, object }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Floating point rounding errors in aspect ratio</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperOptionsError</code></li>
+            <li><strong>Message:</strong> "The specified aspect ratio {aspectRatio} and calculated {name}
+              dimensions width/height = {calculatedAspectRatio} are greater than {epsilon}. This might be due to
+              a rounding error on the server side or incorrect sizes"</li>
+            <li><strong>Message ID:</strong> 5</li>
+            <li><strong>Data:</strong> { name }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Start or default crop settings are not suitable for the current image</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperImageError</code></li>
+            <li><strong>Message:</strong> "The startSize {x}x{y}:{width}x{height} exceeds the imageSize
+              {imageSize.width}x{imageSize.height}"</li>
+            <li><strong>Message ID:</strong> 6</li>
+            <li><strong>Data:</strong> { target: "startSize", coordinates: { x, y }, targetSize: { width, height },
+              source: "imageSize", sourceSize: { width, height } }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Image size, maxSize, or startSize is smaller than minSize</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperImageError</code></li>
+            <li><strong>Message:</strong> "The minSize {width}x{height} exceeds the {source}
+              {source.width}x{source.height}"</li>
+            <li><strong>Message ID:</strong> 7</li>
+            <li><strong>Data:</strong> { target: "minSize", targetSize: { width, height }, source:
+              "imageSize|maxSize|startSize", sourceSize: { width, height } }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Height is provided but width is null</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperOptionsError</code></li>
+            <li><strong>Message:</strong> "The width of {name} is null"</li>
+            <li><strong>Message ID:</strong> 8</li>
+            <li><strong>Data:</strong> { name }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Width is provided but height is null</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperOptionsError</code></li>
+            <li><strong>Message:</strong> "The height of {name} is null"</li>
+            <li><strong>Message ID:</strong> 9</li>
+            <li><strong>Data:</strong> { name }</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Percent values exceed 100</strong>
+          <ul>
+            <li><strong>Name:</strong> <code>TrueCropperOptionsError</code></li>
+            <li><strong>Message:</strong> "The percent values of {name} > 100"</li>
+            <li><strong>Message ID:</strong> 10</li>
+            <li><strong>Data:</strong> { name }</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </main>
+  <script type="module" src="/main.ts"></script>
+</body>
+
+</html>

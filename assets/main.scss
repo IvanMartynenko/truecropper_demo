@@ -1,0 +1,161 @@
+@import "bootstrap/scss/bootstrap";
+@import "truecropper/dist/truecropper.css";
+@import "prismjs/themes/prism.css"; // Import a Prism theme
+
+$preview-card-shadow: 0px 3px 10px rgba(34, 35, 58, 0.2);
+$preview-card-border-radius: 25px;
+
+// .card {
+//   box-shadow: $preview-card-shadow;
+//   padding: 0px 15px;
+//   border-radius: $preview-card-border-radius;
+//   border: none;
+// }
+
+// .ms-8 {
+//   margin-left: 8rem !important;
+// }
+
+// .ribbon {
+//   display: none;
+//   width: 150px;
+//   height: 150px;
+//   overflow: hidden;
+//   position: absolute;
+// }
+
+// .ribbon::before,
+// .ribbon::after {
+//   position: absolute;
+//   z-index: -1;
+//   content: '';
+//   display: block;
+
+// }
+
+// .ribbon-blue {
+//   & span {
+//     background-color: #3498db;
+//     color: #fff;
+//   }
+
+//   &::before,
+//   &::after {
+//     border: 5px solid #2980b9;
+//   }
+// }
+
+// .ribbon-green {
+//   & span {
+//     background-color: #37bd89;
+//     color: #fff;
+//   }
+
+//   &::before,
+//   &::after {
+//     border: 5px solid #29aa79;
+//   }
+// }
+
+// .ribbon span {
+//   position: absolute;
+//   display: block;
+//   width: 225px;
+//   padding: 15px 0;
+//   // background-color: #3498db;
+//   box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+//   // font: 700 18px/1 'Lato', sans-serif;
+//   line-height: 1;
+//   font-weight: 900;
+//   font-size: 1rem;
+//   text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+//   text-transform: uppercase;
+//   text-align: center;
+// }
+
+// /* top left*/
+// .ribbon-top-left {
+//   top: -10px;
+//   left: -10px;
+// }
+
+// .ribbon-top-left::before,
+// .ribbon-top-left::after {
+//   border-top-color: transparent;
+//   border-left-color: transparent;
+// }
+
+// .ribbon-top-left::before {
+//   top: 0;
+//   right: 0;
+// }
+
+// .ribbon-top-left::after {
+//   bottom: 0;
+//   left: 0;
+// }
+
+// .ribbon-top-left span {
+//   right: -25px;
+//   top: 30px;
+//   transform: rotate(-45deg);
+// }
+
+.demo-controlls {
+  border: 1px solid rgb(199, 199, 199);
+
+  .btn {
+    border-radius: 0 !important;
+  }
+}
+
+.about {
+  >.col-12 {
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    margin-bottom: 0.5rem;
+    >h4 {
+      color: var(--bs-code-color);
+    }
+  }
+}
+
+.h4 {
+  color: var(--bs-code-color);
+}
+
+.file-input-width {
+  max-width: 400px;
+}
+
+.image-container {
+  max-width: 500px;
+}
+
+.example1, .example2 {
+  max-height: 300px;
+}
+
+details {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0.5em 0.5em 0;
+}
+
+summary {
+  font-weight: bold;
+  margin: -0.5em -0.5em 0;
+  padding: 0.5em;
+}
+
+details[open] {
+  padding: 0.5em;
+}
+
+.example-button-2 {
+  width: 256px;
+  height: 256px;
+}
+.example-button-image2 {
+  width: 100%;
+  height: 100%;
+}
