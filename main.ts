@@ -446,10 +446,22 @@ function example5() {
 
 document.addEventListener("DOMContentLoaded", () => {
   Prism.highlightAll();
-  demo();
-  example1();
-  example2();
-  example3();
-  example4();
-  example5();
+  try {
+    demo();
+  } catch (e) { }
+  try {
+    example1();
+  } catch (e) { }
+  try {
+    example2();
+  } catch (e) { }
+  try {
+    example3();
+  } catch (e) { }
+  try {
+    example4();
+  } catch (e) { }
+  try {
+    example5();
+  } catch (e) { }
 });
